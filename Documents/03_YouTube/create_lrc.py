@@ -48,7 +48,7 @@ def wait_for_files_active(files):
             raise Exception(f"File {file.name} failed to process")
     print("...Done")
 
-def generate_lrc(mp3_path, lyrics_path):
+def generate_lrc(mp3_path, lyrics_path, hiragana_path=None):
     # Model configuration
     # ユーザーのご希望（高精度・時短）に合わせて、最新の高性能モデルを順に試します。
     # APIキー（無料枠）があれば、これらのモデルをコードから直接利用できます。
@@ -134,9 +134,15 @@ def generate_lrc(mp3_path, lyrics_path):
         "先ほど生成したLRCファイルのひらがな等の部分を、この漢字歌詞に置き換えてください。"
         "タイムスタンプは先ほどの高精度のものをそのまま維持してください。\n"
         "意図的にひらがなのままにしている部分や、英語の部分なども含め、以下のテキストの内容を正としてください。\n\n"
+        "【出力フォーマット厳守】\n"
+        "以下の形式（[分:秒.ミリ秒]歌詞）で出力してください。行間は空けず、1行ずつ記述してください。\n"
+        "例:\n"
+        "[00:13.91]二月の駅で\n"
+        "[00:19.46]白い息\n"
+        "[00:26.83]時刻表だけ\n\n"
         "【正式な歌詞(漢字)】\n"
         "```\n" + lyrics_text + "\n```\n\n"
-        "出力は純粋なLRCファイルの内容のみにしてください。説明やMarkdownのコードブロックは不要ですが、もし含める場合は識別できるようにしてください。"
+        "出力は純粋なLRCファイルの内容のみにしてください。説明は不要です。"
     )
     
     response2 = chat.send_message(prompt2)
