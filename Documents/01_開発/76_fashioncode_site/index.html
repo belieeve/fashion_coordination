@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MY STYLE BOOK - パーソナルファッションコーデ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ヘッダー -->
+  <header class="header">
+    <div class="header-inner">
+      <h1 class="logo" onclick="navigateTo('dashboard')">MY STYLE BOOK</h1>
+      <button class="menu-toggle" onclick="toggleMenu()" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="mainNav">
+        <a href="#" class="nav-link active" data-page="dashboard" onclick="navigateTo('dashboard')">HOME</a>
+        <a href="#" class="nav-link" data-page="coordinate" onclick="navigateTo('coordinate')">COORDINATE</a>
+        <a href="#" class="nav-link" data-page="wardrobe" onclick="navigateTo('wardrobe')">WARDROBE</a>
+        <a href="#" class="nav-link" data-page="rules" onclick="navigateTo('rules')">RULES</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- ダッシュボード -->
+    <section id="page-dashboard" class="page active">
+      <div class="container">
+        <div class="hero">
+          <p class="hero-sub">38歳パパのための</p>
+          <h2 class="hero-title">パーソナルスタイリング</h2>
+          <p class="hero-desc">無理してないのに、ちゃんとして見える。<br>UNITED ARROWS基準の大人コーデ。</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- 今日のおすすめ -->
+          <div class="card card-recommend" onclick="navigateTo('coordinate')">
+            <div class="card-label">TODAY'S PICK</div>
+            <h3 class="card-title" id="todayCoordeName">-</h3>
+            <p class="card-desc" id="todayCoordeDesc">季節に合わせたおすすめコーデ</p>
+            <span class="card-link">コーデを見る →</span>
+          </div>
+
+          <!-- ワードローブサマリー -->
+          <div class="card" onclick="navigateTo('wardrobe')">
+            <div class="card-label">WARDROBE</div>
+            <h3 class="card-title">手持ちアイテム</h3>
+            <div class="wardrobe-summary" id="wardrobeSummary"></div>
+            <span class="card-link">管理する →</span>
+          </div>
+
+          <!-- クイックルール -->
+          <div class="card" onclick="navigateTo('rules')">
+            <div class="card-label">QUICK RULES</div>
+            <h3 class="card-title">スタイリング基準</h3>
+            <ul class="quick-rules">
+              <li>肩が「乗って、止まっている」こと</li>
+              <li>オーバーサイズ禁止</li>
+              <li>色数を抑えた大人の清潔感</li>
+              <li>UA基準を満たすもののみ</li>
+            </ul>
+            <span class="card-link">詳しく見る →</span>
+          </div>
+
+          <!-- プロフィール -->
+          <div class="card card-profile">
+            <div class="card-label">PROFILE</div>
+            <h3 class="card-title">対象ユーザー</h3>
+            <div class="profile-info">
+              <div class="profile-row"><span class="profile-key">年齢</span><span>38歳</span></div>
+              <div class="profile-row"><span class="profile-key">身長</span><span>174cm</span></div>
+              <div class="profile-row"><span class="profile-key">体重</span><span>55kg</span></div>
+              <div class="profile-row"><span class="profile-key">ウエスト</span><span>65cm</span></div>
+              <div class="profile-row"><span class="profile-key">体型</span><span>胴長・なで肩・細身</span></div>
+              <div class="profile-row"><span class="profile-key">スタイル</span><span>キレイめ寄り・ジャスト〜ややゆる</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- コーデ提案ページ -->
+    <section id="page-coordinate" class="page">
+      <div class="container">
+        <h2 class="page-title">COORDINATE</h2>
+        <p class="page-subtitle">シーンと季節を選んで、最適なコーデを。</p>
+
+        <!-- フィルター -->
+        <div class="filter-section">
+          <div class="filter-group">
+            <label class="filter-label">季節</label>
+            <div class="filter-buttons" id="seasonFilter"></div>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">シーン</label>
+            <div class="filter-buttons" id="sceneFilter"></div>
+          </div>
+        </div>
+
+        <!-- コーデ一覧 -->
+        <div class="coordinate-list" id="coordinateList"></div>
+
+        <!-- 空状態 -->
+        <div class="empty-state" id="coordinateEmpty" style="display:none;">
+          <p>条件に合うコーデがありません。<br>フィルターを変更してみてください。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ワードローブページ -->
+    <section id="page-wardrobe" class="page">
+      <div class="container">
+        <h2 class="page-title">WARDROBE</h2>
+        <p class="page-subtitle">手持ちアイテムの管理。追加・編集・削除が自由に。</p>
+
+        <!-- カテゴリタブ -->
+        <div class="tab-bar" id="categoryTabs"></div>
+
+        <!-- アクションバー -->
+        <div class="action-bar">
+          <span class="item-count" id="itemCount">0 items</span>
+          <button class="btn btn-primary" onclick="openAddModal()">+ アイテム追加</button>
+        </div>
+
+        <!-- アイテム一覧 -->
+        <div class="wardrobe-grid" id="wardrobeGrid"></div>
+
+        <!-- 空状態 -->
+        <div class="empty-state" id="wardrobeEmpty" style="display:none;">
+          <p>このカテゴリにはアイテムがありません。<br>「+ アイテム追加」から登録してください。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ルールページ -->
+    <section id="page-rules" class="page">
+      <div class="container">
+        <h2 class="page-title">STYLING RULES</h2>
+        <p class="page-subtitle">UA基準の大人スタイリング・ルールブック。</p>
+
+        <!-- 参考俳優 -->
+        <div class="rule-section">
+          <h3 class="rule-heading">参考スタイル基準</h3>
+          <p class="rule-note">なで肩・細身男性が無理なく成立する現実的完成形</p>
+          <div class="actor-grid" id="actorGrid"></div>
+        </div>
+
+        <!-- チェックリスト -->
+        <div class="rule-section">
+          <h3 class="rule-heading">最終判断チェックリスト</h3>
+          <div class="checklist" id="checklist"></div>
+        </div>
+
+        <!-- ブランド基準 -->
+        <div class="rule-section">
+          <h3 class="rule-heading">ブランド基準（UA軸）</h3>
+          <div class="rule-card" id="brandPolicy"></div>
+        </div>
+
+        <!-- 絶対NG -->
+        <div class="rule-section">
+          <h3 class="rule-heading">絶対NG</h3>
+          <div class="ng-grid">
+            <div class="ng-column">
+              <h4>ファッション</h4>
+              <ul class="ng-list" id="fashionNG"></ul>
+            </div>
+            <div class="ng-column">
+              <h4>身だしなみ</h4>
+              <ul class="ng-list" id="groomingNG"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- アイテム別ルール -->
+        <div class="rule-section">
+          <h3 class="rule-heading">アイテム別ルール</h3>
+          <div class="item-rules" id="itemRules"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- アイテム追加/編集モーダル -->
+  <div class="modal-overlay" id="itemModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">アイテム追加</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <form id="itemForm" onsubmit="return handleItemSubmit(event)">
+        <div class="form-group">
+          <label>カテゴリ</label>
+          <select id="formCategory" required>
+            <option value="">選択してください</option>
+            <option value="outer">アウター</option>
+            <option value="tops">トップス</option>
+            <option value="pants">パンツ</option>
+            <option value="shoes">靴</option>
+            <option value="bags">バッグ</option>
+            <option value="accessories">小物</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>ブランド</label>
+          <input type="text" id="formBrand" placeholder="例：UNIQLO" required>
+        </div>
+        <div class="form-group">
+          <label>アイテム名</label>
+          <input type="text" id="formName" placeholder="例：ウォームスマートパンツ" required>
+        </div>
+        <div class="form-group">
+          <label>カラー</label>
+          <input type="text" id="formColor" placeholder="例：ブラック">
+        </div>
+        <div class="form-group">
+          <label>サイズ</label>
+          <input type="text" id="formSize" placeholder="例：M">
+        </div>
+        <div class="form-group">
+          <label>シーズン</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label"><input type="checkbox" name="season" value="spring"> 春</label>
+            <label class="checkbox-label"><input type="checkbox" name="season" value="summer"> 夏</label>
+            <label class="checkbox-label"><input type="checkbox" name="season" value="autumn"> 秋</label>
+            <label class="checkbox-label"><input type="checkbox" name="season" value="winter"> 冬</label>
+            <label class="checkbox-label"><input type="checkbox" name="season" value="all"> 通年</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>タグ（カンマ区切り）</label>
+          <input type="text" id="formTags" placeholder="例：きれいめ, スラックス">
+        </div>
+        <input type="hidden" id="formEditId">
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">キャンセル</button>
+          <button type="submit" class="btn btn-primary" id="formSubmitBtn">追加する</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 削除確認モーダル -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal modal-small">
+      <div class="modal-header">
+        <h3 class="modal-title">アイテム削除</h3>
+        <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+      </div>
+      <p class="delete-message" id="deleteMessage">このアイテムを削除しますか？</p>
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="closeDeleteModal()">キャンセル</button>
+        <button class="btn btn-danger" id="deleteConfirmBtn">削除する</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>MY STYLE BOOK &copy; 2026 - UA基準のパーソナルスタイリング</p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/wardrobe.js"></script>
+  <script src="js/coordinate.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
