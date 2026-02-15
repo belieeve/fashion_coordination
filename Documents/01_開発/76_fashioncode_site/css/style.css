@@ -942,29 +942,74 @@ body {
 }
 
 /* ========================================
+   ボトムナビゲーション（モバイル用）
+   ======================================== */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--color-white);
+  border-top: 1px solid var(--color-gray-200);
+  padding: 6px 0 env(safe-area-inset-bottom, 6px);
+}
+
+.bottom-nav-inner {
+  display: flex;
+  justify-content: space-around;
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 12px;
+  text-decoration: none;
+  color: var(--color-gray-400);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  -webkit-tap-highlight-color: transparent;
+  transition: var(--transition);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-main);
+}
+
+.bottom-nav-item.active {
+  color: var(--color-black);
+}
+
+.bottom-nav-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* ========================================
    レスポンシブ
    ======================================== */
 @media (max-width: 768px) {
   .menu-toggle {
-    display: flex;
+    display: none;
   }
 
   .nav {
     display: none;
-    position: absolute;
-    top: 56px;
-    left: 0;
-    right: 0;
-    background: var(--color-white);
-    flex-direction: column;
-    padding: 16px 20px;
-    gap: 12px;
-    border-bottom: 1px solid var(--color-gray-200);
-    box-shadow: var(--shadow-md);
   }
 
-  .nav.open {
-    display: flex;
+  .bottom-nav {
+    display: block;
+  }
+
+  .main {
+    padding-bottom: 72px;
+  }
+
+  .footer {
+    padding-bottom: 80px;
   }
 
   .hero-title {
@@ -991,8 +1036,60 @@ body {
     flex-direction: column;
   }
 
+  .coord-item {
+    width: 100%;
+  }
+
   .filter-buttons {
     flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .tab-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .btn {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .wardrobe-card-actions button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .modal {
+    padding: 24px 20px;
+    max-height: 85vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    align-self: flex-end;
+  }
+
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .checkbox-label {
+    font-size: 14px;
+    padding: 4px 0;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
   }
 }
 
@@ -1019,5 +1116,36 @@ body {
 
   .wardrobe-summary {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .page-title {
+    font-size: 20px;
+  }
+
+  .coord-name {
+    font-size: 15px;
+  }
+}
+
+/* タッチデバイス最適化 */
+@media (hover: none) {
+  .card:hover {
+    transform: none;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .wardrobe-card:hover {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card:active {
+    transform: scale(0.98);
+  }
+}
+
+/* PC表示でボトムナビ非表示 */
+@media (min-width: 769px) {
+  .bottom-nav {
+    display: none !important;
   }
 }

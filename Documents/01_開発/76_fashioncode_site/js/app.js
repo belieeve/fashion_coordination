@@ -16,6 +16,11 @@ function navigateTo(page) {
   // モバイルメニューを閉じる
   document.getElementById('mainNav').classList.remove('open');
 
+  // ボトムナビ更新
+  document.querySelectorAll('.bottom-nav-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.page === page);
+  });
+
   // ページ別初期化
   switch (page) {
     case 'dashboard':
